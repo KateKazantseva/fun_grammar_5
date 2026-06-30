@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок №5: Numbers 11-20 & Plurals 🔢</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #F5A623;
+            --success: #7ED321;
+            --error: #E02020;
+            --bg: #F0F4F8;
+            --card-bg: #FFFFFF;
+            --text: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(#E1E8ED 15%, transparent 16%), radial-gradient(#E1E8ED 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            padding: 20px;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 700px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Прогресс-бар */
+        .progress-container {
+            width: 100%;
+            background-color: #E0E0E0;
+            border-radius: 15px;
+            height: 18px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), #FFD166);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 15px;
+        }
+
+        /* Экраны */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            flex: 1;
+            flex-direction: column;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 { text-align: center; color: var(--primary); margin-top: 0; }
+        .mascot { font-size: 4em; text-align: center; display: block; margin: 10px 0; animation: bounce 2s infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 3D Emoji Styles */
+        .emoji-3d {
+            font-size: 3.5em;
+            display: inline-block;
+            filter: drop-shadow(0 6px 0px rgba(0,0,0,0.15)) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.2s;
+        }
+        .emoji-3d:hover { transform: scale(1.15) rotate(-5deg); }
+
+        .emoji-3d-large {
+            font-size: 5em;
+            display: inline-block;
+            filter: drop-shadow(0 8px 0px rgba(0,0,0,0.15)) drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Карточки словаря */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .vocab-card {
+            background: linear-gradient(135deg, #F8F9FA, #E8ECF0);
+            border: 3px solid #E9ECEF;
+            border-radius: 20px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .vocab-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.25);
+        }
+
+        .vocab-card .num { font-size: 2em; font-weight: bold; color: var(--secondary); }
+        .vocab-card .en { font-size: 1.2em; font-weight: bold; color: var(--primary); }
+
+        /* Правила */
+        .rule-box {
+            background: #FFF3CD;
+            border-left: 5px solid var(--secondary);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 12px 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .rule-box .icon { font-size: 2em; line-height: 1; }
+        .rule-box .content { flex: 1; }
+        .rule-box strong { color: #856404; font-size: 1.2em; }
+        .rule-box .example { 
+            display: block; 
+            margin-top: 8px; 
+            font-style: italic; 
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .btn-audio {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-left: 10px;
+            vertical-align: middle;
+            transition: transform 0.1s;
+            box-shadow: 0 3px 0 #2A5F8F;
+        }
+        .btn-audio:active { transform: translateY(3px); box-shadow: none; }
+
+        /* Кнопки */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #357ABD);
+            color: white;
+            box-shadow: 0 4px 0 #2A5F8F;
+        }
+        .btn-primary:active { transform: translateY(4px); box-shadow: 0 0 0 #2A5F8F; }
+
+        .btn-option {
+            background: white;
+            border: 3px solid var(--primary);
+            color: var(--primary);
+            box-shadow: 0 4px 0 #D0E1F5;
+            margin: 8px 0;
+            padding: 12px;
+            font-size: 1.1em;
+        }
+        .btn-option:hover { background: #E3F2FD; }
+        .btn-option:active { transform: translateY(4px); box-shadow: none; }
+        .btn-option.correct { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 4px 0 #5DA318; }
+        .btn-option.wrong { background: var(--error); border-color: var(--error); color: white; box-shadow: 0 4px 0 #B01919; animation: shake 0.5s; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Задания общие стили */
+        .task-container {
+            background: linear-gradient(135deg, #F8F9FA, #E8ECF0);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 15px 0;
+            border: 3px dashed var(--primary);
+            text-align: center;
+        }
+
+        .task-emoji-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .options-grid.three-col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .options-grid .btn-option {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        /* Word Scramble */
+        .scramble-slots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            min-height: 60px;
+            flex-wrap: wrap;
+        }
+        .slot {
+            width: 45px;
+            height: 55px;
+            border: 3px dashed #CBD5E0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            background: white;
+            cursor: pointer;
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+        .slot.filled {
+            border-style: solid;
+            border-color: var(--primary);
+            box-shadow: 0 4px 0 #D0E1F5;
+        }
+        .slot.filled:hover {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #D0E1F5;
+            background: #FFF5F5;
+        }
+
+        .scramble-keys {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .key-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            background: linear-gradient(135deg, var(--secondary), #E09520);
+            color: white;
+            font-size: 1.6em;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #B87A0A;
+            transition: all 0.2s;
+        }
+        .key-btn:active { transform: translateY(4px); box-shadow: none; }
+        .key-btn.used {
+            opacity: 0.3;
+            cursor: default;
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .btn-reset-round {
+            background: #E2E8F0;
+            color: #4A5568;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+        }
+        .btn-reset-round:hover { background: #CBD5E0; }
+
+        /* Sentence Builder */
+        .builder-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .prompt-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .prompt-question {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .prompt-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        .built-sentence {
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 3px dashed var(--primary);
+            width: 100%;
+        }
+        .word-slot {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #2A5F8F;
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        .word-slot:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #2A5F8F; }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .word-tile {
+            padding: 12px 18px;
+            background: linear-gradient(135deg, var(--secondary), #E09520);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #B87A0A;
+            transition: all 0.2s;
+        }
+        .word-tile:active { transform: translateY(4px); box-shadow: none; }
+        .word-tile.used { opacity: 0.3; cursor: default; transform: translateY(4px); box-shadow: none; }
+
+        .feedback-text {
+            text-align: center;
+            font-size: 1.3em;
+            min-height: 1.5em;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .feedback-correct { color: var(--success); }
+        .feedback-wrong { color: var(--error); }
+
+        /* Результаты */
+        .results-container { text-align: center; }
+        .score-big {
+            font-size: 5em;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        .motivation-msg {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .results-table th, .results-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+        .results-table th { background: var(--primary); color: white; text-align: center; }
+        .results-table td:last-child { text-align: center; font-weight: bold; }
+        .results-table tr:last-child td { border-bottom: none; background: #F8F9FA; font-size: 1.1em; }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: fall linear forwards;
+            z-index: 9999;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(720deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Экран 1: Приветствие -->
+    <div class="screen active" id="screen-1">
+        <span class="mascot">🦉</span>
+        <h1>Привет, друг!</h1>
+        <p style="text-align: center; font-size: 1.2em;">Сегодня мы научимся считать до 20, правильно использовать артикли и говорить о многих предметах сразу!</p>
+        <p style="text-align: center; font-size: 1.1em; color: #666;">Готов к новым открытиям?</p>
+        <button class="btn btn-primary" onclick="nextScreen(2)">Поехали! 🚀</button>
+    </div>
+
+    <!-- Экран 2: Словарь Чисел -->
+    <div class="screen" id="screen-2">
+        <h2>🔢 Numbers 11-20</h2>
+        <p style="text-align: center; margin-bottom: 20px;">Нажми на карточку, чтобы услышать число!</p>
+        <div class="vocab-grid">
+            <div class="vocab-card" onclick="speak('Eleven')"><span class="num">11</span><span class="en">eleven</span></div>
+            <div class="vocab-card" onclick="speak('Twelve')"><span class="num">12</span><span class="en">twelve</span></div>
+            <div class="vocab-card" onclick="speak('Thirteen')"><span class="num">13</span><span class="en">thirteen</span></div>
+            <div class="vocab-card" onclick="speak('Fourteen')"><span class="num">14</span><span class="en">fourteen</span></div>
+            <div class="vocab-card" onclick="speak('Fifteen')"><span class="num">15</span><span class="en">fifteen</span></div>
+            <div class="vocab-card" onclick="speak('Sixteen')"><span class="num">16</span><span class="en">sixteen</span></div>
+            <div class="vocab-card" onclick="speak('Seventeen')"><span class="num">17</span><span class="en">seventeen</span></div>
+            <div class="vocab-card" onclick="speak('Eighteen')"><span class="num">18</span><span class="en">eighteen</span></div>
+            <div class="vocab-card" onclick="speak('Nineteen')"><span class="num">19</span><span class="en">nineteen</span></div>
+            <div class="vocab-card" onclick="speak('Twenty')"><span class="num">20</span><span class="en">twenty</span></div>
+        </div>
+        <button class="btn btn-primary" onclick="nextScreen(3)">Я запомнил! Дальше ➡️</button>
+    </div>
+
+    <!-- Экран 3: Грамматика -->
+    <div class="screen" id="screen-3">
+        <h2>✨ Грамматика</h2>
+        
+        <div class="rule-box">
+            <span class="icon">🅰️</span>
+            <div class="content">
+                <strong>Артикли a / an</strong>
+                <button class="btn-audio" onclick="speak('A pen. An apple.')">🔊</button>
+                <span class="example">
+                    <strong>a</strong> + согласная (a pear)<br>
+                    <strong>an</strong> + гласная (an apple)
+                </span>
+            </div>
+        </div>
+
+        <div class="rule-box" style="background: #E3F2FD; border-color: var(--primary);">
+            <span class="icon">❓</span>
+            <div class="content">
+                <strong>Вопросы</strong>
+                <button class="btn-audio" onclick="speak('What is it? It is a pear. What are they? They are pears.')">🔊</button>
+                <span class="example">
+                    Один предмет: <strong>What is it?</strong><br>
+                    Ответ: <strong>It is a/an...</strong><br><br>
+                    Много предметов: <strong>What are they?</strong><br>
+                    Ответ: <strong>They are...s</strong>
+                </span>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="nextScreen(4)" style="margin-top: auto;">Понятно! Проверим? 🧠</button>
+    </div>
+
+    <!-- Экран 4: Number Quiz -->
+    <div class="screen" id="screen-4">
+        <h2>🎯 Задание 1: Угадай число</h2>
+        <p style="text-align: center;">Выбери правильное слово для цифры</p>
+        
+        <div class="task-container">
+            <div style="font-size: 6em; font-weight: bold; color: var(--secondary); margin: 20px 0;" id="num-quiz-digit">15</div>
+            
+            <div class="options-grid three-col" id="num-quiz-options">
+                <!-- Кнопки генерируются JS -->
+            </div>
+            
+            <div class="feedback-text" id="num-quiz-feedback"></div>
+        </div>
+        
+        <button class="btn btn-primary" id="num-quiz-next-btn" style="display: none;" onclick="nextNumQuiz()">Следующее ➡️</button>
+    </div>
+
+    <!-- Экран 5: Word Scramble -->
+    <div class="screen" id="screen-5">
+        <h2>🧩 Задание 2: Собери число</h2>
+        <p style="text-align: center;">Посмотри на цифру и собери слово из букв</p>
+        
+        <div class="task-container">
+            <div class="task-emoji-circle" style="background: white; border: none; box-shadow: none;">
+                <span style="font-size: 4em; font-weight: bold; color: var(--secondary);" id="scramble-digit">17</span>
+            </div>
+            <button class="btn-audio" style="width: 50px; height: 50px; font-size: 1.5em; display: block; margin: 0 auto 15px; background: var(--primary); color: white; border: none; border-radius: 50%; box-shadow: 0 3px 0 #2A5F8F;" onclick="speakCurrentScrambleWord()">🔊</button>
+            
+            <div class="scramble-slots" id="scramble-slots"></div>
+            <div class="scramble-keys" id="scramble-keys"></div>
+            
+            <div class="feedback-text" id="scramble-feedback"></div>
+            <button class="btn-reset-round" id="btn-reset-scramble" onclick="resetScrambleRound()">🔄 Сбросить</button>
+        </div>
+        
+        <button class="btn btn-primary" id="scramble-next-btn" style="display: none;" onclick="nextScrambleWord()">Следующее число ➡️</button>
+    </div>
+
+    <!-- Экран 6: a / an / - Quiz -->
+    <div class="screen" id="screen-6">
+        <h2>🅰️ Задание 3: a, an или ничего?</h2>
+        <p style="text-align: center;">Вставь пропущенное слово в предложение</p>
+        
+        <div class="task-container">
+            <div class="task-emoji-circle" id="article-emoji-box">
+                <span class="emoji-3d-large">🍎</span>
+            </div>
+            <div style="font-size: 1.5em; margin-bottom: 20px; font-weight: bold;" id="article-sentence">
+                It is ... pear.
+            </div>
+            
+            <div class="options-grid three-col">
+                <button class="btn-option" onclick="checkArticle('a')">a</button>
+                <button class="btn-option" onclick="checkArticle('an')">an</button>
+                <button class="btn-option" onclick="checkArticle('-')">-</button>
+            </div>
+            
+            <div class="feedback-text" id="article-feedback"></div>
+        </div>
+        
+        <button class="btn btn-primary" id="article-next-btn" style="display: none;" onclick="nextArticle()">Следующее ➡️</button>
+    </div>
+
+    <!-- Экран 7: Yes or No -->
+    <div class="screen" id="screen-7">
+        <h2>✅❌ Задание 4: Yes or No?</h2>
+        <p style="text-align: center;">Правда ли это?</p>
+        
+        <div class="task-container">
+            <div class="task-emoji-circle" id="yesno-emoji-box">
+                <span class="emoji-3d-large">🍎</span>
+            </div>
+            <div style="font-size: 1.4em; font-weight: bold; color: var(--primary); margin-bottom: 20px;" id="yesno-question">
+                Is it an apple?
+            </div>
+            
+            <div class="options-grid">
+                <button class="btn-option" onclick="checkYesNo(true)">Yes</button>
+                <button class="btn-option" onclick="checkYesNo(false)">No</button>
+            </div>
+            
+            <div class="feedback-text" id="yesno-feedback"></div>
+        </div>
+        
+        <button class="btn btn-primary" id="yesno-next-btn" style="display: none;" onclick="nextYesNo()">Следующее ➡️</button>
+    </div>
+
+    <!-- Экран 8: Конструктор 1 (Грамматика) -->
+    <div class="screen" id="screen-8">
+        <h2>🏗 Задание 5: Ответь на вопрос</h2>
+        <p style="text-align: center;">Собери правильный ответ (единственное или множественное число)</p>
+        
+        <div class="task-container builder-container">
+            <div class="prompt-row">
+                <div class="prompt-question" id="builder-q1-question">What is it?</div>
+                <span class="emoji-3d-large" id="builder-q1-emoji">🍎</span>
+            </div>
+            
+            <div class="built-sentence" id="builder-q1-built"></div>
+            
+            <div class="word-bank" id="builder-q1-words"></div>
+            
+            <div class="feedback-text" id="builder-q1-feedback"></div>
+            <button class="btn-reset-round" onclick="resetBuilderQ1()">🔄 Сбросить</button>
+        </div>
+        
+        <button class="btn btn-primary" id="builder-q1-next-btn" style="display: none;" onclick="nextBuilderQ1()">Следующее ➡️</button>
+    </div>
+
+    <!-- Экран 9: Конструктор 2 (Числа) -->
+    <div class="screen" id="screen-9">
+        <h2>🔢 Задание 6: Сколько предметов?</h2>
+        <p style="text-align: center;">Напиши число и название предметов словами</p>
+        
+        <div class="task-container builder-container">
+            <div class="prompt-row">
+                <div class="prompt-number" id="builder-q2-num">15</div>
+                <span class="emoji-3d-large" id="builder-q2-emoji">🍎</span>
+            </div>
+            
+            <div class="built-sentence" id="builder-q2-built"></div>
+            
+            <div class="word-bank" id="builder-q2-words"></div>
+            
+            <div class="feedback-text" id="builder-q2-feedback"></div>
+            <button class="btn-reset-round" onclick="resetBuilderQ2()">🔄 Сбросить</button>
+        </div>
+        
+        <button class="btn btn-primary" id="builder-q2-next-btn" style="display: none;" onclick="nextBuilderQ2()">Следующее ➡️</button>
+    </div>
+
+    <!-- Экран 10: Результаты -->
+    <div class="screen" id="screen-10">
+        <div class="results-container">
+            <span class="mascot">🏆</span>
+            <h1>Урок завершён!</h1>
+            <div class="score-big" id="final-score">0%</div>
+            <div class="motivation-msg" id="motivation-msg"></div>
+            
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Задание</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🔢 Number Quiz</td>
+                        <td id="res-num">0 / 10</td>
+                    </tr>
+                    <tr>
+                        <td>🧩 Собери число</td>
+                        <td id="res-scramble">0 / 6</td>
+                    </tr>
+                    <tr>
+                        <td>🅰️ a / an / -</td>
+                        <td id="res-article">0 / 10</td>
+                    </tr>
+                    <tr>
+                        <td>✅ Yes or No?</td>
+                        <td id="res-yesno">0 / 10</td>
+                    </tr>
+                    <tr>
+                        <td>🏗 Конструктор (Грамматика)</td>
+                        <td id="res-builder1">0 / 4</td>
+                    </tr>
+                    <tr>
+                        <td>🔢 Конструктор (Числа)</td>
+                        <td id="res-builder2">0 / 4</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ИТОГО</strong></td>
+                        <td id="res-total"><strong>0 / 44</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary" onclick="resetLesson()">🔄 Начать урок заново</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
+    let currentScreen = 1;
+    const totalScreens = 10;
+    
+    let scores = { num: 0, scramble: 0, article: 0, yesno: 0, builder1: 0, builder2: 0 };
+    const maxScores = { num: 10, scramble: 6, article: 10, yesno: 10, builder1: 4, builder2: 4 };
+
+    // Данные чисел
+    const numbersData = [
+        { num: 11, word: 'eleven' }, { num: 12, word: 'twelve' },
+        { num: 13, word: 'thirteen' }, { num: 14, word: 'fourteen' },
+        { num: 15, word: 'fifteen' }, { num: 16, word: 'sixteen' },
+        { num: 17, word: 'seventeen' }, { num: 18, word: 'eighteen' },
+        { num: 19, word: 'nineteen' }, { num: 20, word: 'twenty' }
+    ];
+
+    // Данные предметов (убрали rubber и desk)
+    const itemsData = [
+        { word: 'apple', plural: 'apples', emoji: '🍎', startsVowel: true },
+        { word: 'banana', plural: 'bananas', emoji: '🍌', startsVowel: false },
+        { word: 'pear', plural: 'pears', emoji: '🍐', startsVowel: false },
+        { word: 'orange', plural: 'oranges', emoji: '🍊', startsVowel: true },
+        { word: 'cherry', plural: 'cherries', emoji: '🍒', startsVowel: false },
+        { word: 'pen', plural: 'pens', emoji: '🖊️', startsVowel: false },
+        { word: 'pencil', plural: 'pencils', emoji: '✏️', startsVowel: false },
+        { word: 'ruler', plural: 'rulers', emoji: '📏', startsVowel: false },
+        { word: 'pencil case', plural: 'pencil cases', emoji: '👝', startsVowel: false },
+        { word: 'book', plural: 'books', emoji: '📖', startsVowel: false },
+        { word: 'chair', plural: 'chairs', emoji: '🪑', startsVowel: false },
+        { word: 'lamp', plural: 'lamps', emoji: '💡', startsVowel: false },
+        { word: 'bed', plural: 'beds', emoji: '🛏️', startsVowel: false }
+    ];
+
+    // Состояния заданий
+    let currentNumQuiz = 0;
+    let currentScrambleIndex = 0;
+    let currentArticle = 0;
+    let currentYesNo = 0;
+    let currentBuilder1 = 0;
+    let currentBuilder2 = 0;
+    
+    let scrambleState = { target: "", letters: [], built: [] };
+    let isScrambleLocked = false;
+    let builder1State = { built: [], words: [] };
+    let builder2State = { built: [], words: [] };
+
+    // Очереди для рандомизации
+    let numQueue = [];
+    let scrambleQueue = [];
+    let articleQueue = [];
+    let yesNoQueue = [];
+    let builder1Queue = [];
+    let builder2Queue = [];
+
+    // ===== УПРАВЛЕНИЕ =====
+    function updateProgress(screenIdx) {
+        let progress = 0;
+        if (screenIdx === 1) progress = 0;
+        else if (screenIdx === 2) progress = 10;
+        else if (screenIdx === 3) progress = 20;
+        else if (screenIdx === 4) progress = 30;
+        else if (screenIdx === 5) progress = 40;
+        else if (screenIdx === 6) progress = 50;
+        else if (screenIdx === 7) progress = 60;
+        else if (screenIdx === 8) progress = 70;
+        else if (screenIdx === 9) progress = 80;
+        else if (screenIdx === 10) progress = 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function nextScreen(n) {
+        document.getElementById(`screen-${currentScreen}`).classList.remove('active');
+        currentScreen = n;
+        document.getElementById(`screen-${currentScreen}`).classList.add('active');
+        updateProgress(n);
+        
+        if (n === 4) initNumQuiz();
+        if (n === 5) initScramble();
+        if (n === 6) initArticle();
+        if (n === 7) initYesNo();
+        if (n === 8) initBuilder1();
+        if (n === 9) initBuilder2();
+        if (n === 10) showResults();
+        
+        window.scrollTo(0, 0);
+    }
+
+    // ===== ОЗВУЧКА =====
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // ===== ЗАДАНИЕ 1: Number Quiz =====
+    function initNumQuiz() {
+        numQueue = [...numbersData].sort(() => Math.random() - 0.5);
+        currentNumQuiz = 0;
+        scores.num = 0;
+        loadNumQuiz();
+    }
+
+    function loadNumQuiz() {
+        if (currentNumQuiz >= numQueue.length) {
+            document.getElementById('num-quiz-feedback').textContent = 'Все задания выполнены! 🎉';
+            document.getElementById('num-quiz-feedback').className = 'feedback-text feedback-correct';
+            document.getElementById('num-quiz-next-btn').style.display = 'none';
+            setTimeout(() => nextScreen(5), 1500);
+            return;
+        }
+
+        const item = numQueue[currentNumQuiz];
+        document.getElementById('num-quiz-digit').textContent = item.num;
+        document.getElementById('num-quiz-feedback').textContent = '';
+        document.getElementById('num-quiz-next-btn').style.display = 'none';
+
+        const container = document.getElementById('num-quiz-options');
+        container.innerHTML = '';
+
+        let options = [item.word];
+        const otherWords = numbersData.filter(n => n.word !== item.word).map(n => n.word);
+        otherWords.sort(() => Math.random() - 0.5);
+        options.push(otherWords[0], otherWords[1]);
+        options.sort(() => Math.random() - 0.5);
+
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.textContent = opt;
+            btn.onclick = () => checkNumQuiz(btn, opt, item.word);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkNumQuiz(btn, selected, correct) {
+        const feedback = document.getElementById('num-quiz-feedback');
+        const allBtns = document.querySelectorAll('#num-quiz-options .btn-option');
+        allBtns.forEach(b => b.disabled = true);
+
+        if (selected === correct) {
+            btn.classList.add('correct');
+            feedback.textContent = 'Правильно! 🌟';
+            feedback.className = 'feedback-text feedback-correct';
+            speak(correct);
+            scores.num++;
+        } else {
+            btn.classList.add('wrong');
+            allBtns.forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+            feedback.textContent = `Правильно: ${correct}`;
+            feedback.className = 'feedback-text feedback-wrong';
+        }
+        document.getElementById('num-quiz-next-btn').style.display = 'block';
+    }
+
+    function nextNumQuiz() { currentNumQuiz++; loadNumQuiz(); }
+
+    // ===== ЗАДАНИЕ 2: Word Scramble =====
+    function initScramble() {
+        scrambleQueue = [...numbersData].sort(() => Math.random() - 0.5).slice(0, 6);
+        currentScrambleIndex = 0;
+        scores.scramble = 0;
+        loadScrambleRound();
+    }
+
+    function loadScrambleRound() {
+        if (currentScrambleIndex >= scrambleQueue.length) {
+            document.getElementById('scramble-feedback').textContent = "Все слова собраны! 🎉";
+            document.getElementById('scramble-feedback').className = "feedback-text feedback-correct";
+            document.getElementById('btn-reset-scramble').style.display = 'none';
+            document.getElementById('scramble-next-btn').style.display = 'none';
+            setTimeout(() => nextScreen(6), 2000);
+            return;
+        }
+
+        const item = scrambleQueue[currentScrambleIndex];
+        scrambleState.target = item.word;
+        document.getElementById('scramble-digit').textContent = item.num;
+        document.getElementById('scramble-feedback').textContent = "";
+        document.getElementById('btn-reset-scramble').style.display = 'inline-block';
+        document.getElementById('scramble-next-btn').style.display = 'none';
+        isScrambleLocked = false;
+
+        scrambleState.letters = item.word.split('').map((char, i) => ({ id: i, char: char, used: false }));
+        scrambleState.letters.sort(() => Math.random() - 0.5);
+        scrambleState.built = [];
+        renderScramble();
+    }
+
+    function renderScramble() {
+        const slotsContainer = document.getElementById('scramble-slots');
+        const keysContainer = document.getElementById('scramble-keys');
+        slotsContainer.innerHTML = ''; keysContainer.innerHTML = '';
+
+        for (let i = 0; i < scrambleState.target.length; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            if (i < scrambleState.built.length) {
+                const letterId = scrambleState.built[i];
+                const letterData = scrambleState.letters.find(l => l.id === letterId);
+                slot.textContent = letterData.char;
+                slot.classList.add('filled');
+                slot.onclick = () => {
+                    if (isScrambleLocked) return;
+                    letterData.used = false;
+                    scrambleState.built.splice(i, 1);
+                    renderScramble();
+                    document.getElementById('scramble-feedback').textContent = "";
+                };
+            }
+            slotsContainer.appendChild(slot);
+        }
+
+        scrambleState.letters.forEach(letter => {
+            const btn = document.createElement('button');
+            btn.className = 'key-btn' + (letter.used ? ' used' : '');
+            btn.textContent = letter.char;
+            btn.onclick = () => {
+                if (isScrambleLocked || letter.used) return;
+                letter.used = true;
+                scrambleState.built.push(letter.id);
+                renderScramble();
+                checkScramble();
+            };
+            keysContainer.appendChild(btn);
+        });
+    }
+
+    function checkScramble() {
+        if (scrambleState.built.length === scrambleState.target.length) {
+            const builtWord = scrambleState.built.map(id => scrambleState.letters.find(l => l.id === id).char).join('');
+            if (builtWord === scrambleState.target) {
+                isScrambleLocked = true;
+                document.getElementById('scramble-feedback').textContent = "Правильно! 🌟";
+                document.getElementById('scramble-feedback').className = "feedback-text feedback-correct";
+                speak(scrambleState.target);
+                scores.scramble++;
+                document.getElementById('scramble-next-btn').style.display = 'block';
+                document.getElementById('btn-reset-scramble').style.display = 'none';
+            } else {
+                isScrambleLocked = true;
+                document.getElementById('scramble-feedback').textContent = "Неверно! 💪";
+                document.getElementById('scramble-feedback').className = "feedback-text feedback-wrong";
+                document.querySelectorAll('.slot.filled').forEach(s => { s.style.animation = 'shake 0.5s'; s.style.borderColor = 'var(--error)'; });
+                setTimeout(() => { resetScrambleRound(); }, 1200);
+            }
+        }
+    }
+
+    function resetScrambleRound() {
+        if (isScrambleLocked && document.getElementById('scramble-next-btn').style.display === 'block') return;
+        scrambleState.letters.forEach(l => l.used = false);
+        scrambleState.built = [];
+        isScrambleLocked = false;
+        document.getElementById('scramble-feedback').textContent = "";
+        renderScramble();
+    }
+
+    function speakCurrentScrambleWord() { speak(scrambleState.target); }
+    function nextScrambleWord() { currentScrambleIndex++; loadScrambleRound(); }
+
+    // ===== ЗАДАНИЕ 3: Article Quiz =====
+    function initArticle() {
+        articleQueue = [];
+        for(let i=0; i<10; i++) {
+            const item = itemsData[Math.floor(Math.random() * itemsData.length)];
+            const isPlural = Math.random() > 0.5;
+            articleQueue.push({ item: item, isPlural: isPlural });
+        }
+        currentArticle = 0;
+        scores.article = 0;
+        loadArticle();
+    }
+
+    function loadArticle() {
+        if (currentArticle >= articleQueue.length) {
+            document.getElementById('article-feedback').textContent = 'Все задания выполнены! 🎉';
+            document.getElementById('article-feedback').className = 'feedback-text feedback-correct';
+            document.getElementById('article-next-btn').style.display = 'none';
+            setTimeout(() => nextScreen(7), 1500);
+            return;
+        }
+
+        const data = articleQueue[currentArticle];
+        const emojiBox = document.getElementById('article-emoji-box');
+        const count = data.isPlural ? 3 : 1;
+        emojiBox.innerHTML = Array(count).fill(`<span class="emoji-3d">${data.item.emoji}</span>`).join('');
+        
+        let sentence = "";
+        if (data.isPlural) {
+            sentence = `They are ... ${data.item.plural}.`;
+        } else {
+            sentence = `It is ... ${data.item.word}.`;
+        }
+        document.getElementById('article-sentence').textContent = sentence;
+        
+        document.getElementById('article-feedback').textContent = '';
+        document.getElementById('article-next-btn').style.display = 'none';
+        
+        const allBtns = document.querySelectorAll('#screen-6 .btn-option');
+        allBtns.forEach(btn => { btn.classList.remove('correct', 'wrong'); btn.disabled = false; });
+    }
+
+    function checkArticle(selected) {
+        const data = articleQueue[currentArticle];
+        const feedback = document.getElementById('article-feedback');
+        const allBtns = document.querySelectorAll('#screen-6 .btn-option');
+        allBtns.forEach(btn => btn.disabled = true);
+
+        let correctAnswer = '-';
+        let phrase = '';
+
+        if (!data.isPlural) {
+            correctAnswer = data.item.startsVowel ? 'an' : 'a';
+            phrase = `It is ${correctAnswer} ${data.item.word}.`;
+        } else {
+            correctAnswer = '-';
+            phrase = `They are ${data.item.plural}.`;
+        }
+
+        if (selected === correctAnswer) {
+            const btnIndex = correctAnswer === 'a' ? 0 : (correctAnswer === 'an' ? 1 : 2);
+            allBtns[btnIndex].classList.add('correct');
+            feedback.textContent = 'Правильно! 🌟';
+            feedback.className = 'feedback-text feedback-correct';
+            speak(phrase);
+            scores.article++;
+        } else {
+            const btnIndex = selected === 'a' ? 0 : (selected === 'an' ? 1 : 2);
+            allBtns[btnIndex].classList.add('wrong');
+            const correctBtnIndex = correctAnswer === 'a' ? 0 : (correctAnswer === 'an' ? 1 : 2);
+            allBtns[correctBtnIndex].classList.add('correct');
+            feedback.textContent = `Правильно: ${correctAnswer}`;
+            feedback.className = 'feedback-text feedback-wrong';
+        }
+        document.getElementById('article-next-btn').style.display = 'block';
+    }
+
+    function nextArticle() { currentArticle++; loadArticle(); }
+
+    // ===== ЗАДАНИЕ 4: Yes or No =====
+    function initYesNo() {
+        yesNoQueue = [];
+        for(let i=0; i<10; i++) {
+            const item = itemsData[Math.floor(Math.random() * itemsData.length)];
+            const isPlural = Math.random() > 0.5;
+            const isCorrectQuestion = Math.random() > 0.5;
+            
+            let questionWord, answer;
+            if (isCorrectQuestion) {
+                questionWord = isPlural ? item.plural : item.word;
+                answer = true;
+            } else {
+                const wrongItem = itemsData[Math.floor(Math.random() * itemsData.length)];
+                questionWord = isPlural ? wrongItem.plural : wrongItem.word;
+                answer = false;
+            }
+            
+            const question = isPlural ? `Are they ${questionWord}?` : `Is it a${item.startsVowel && !isPlural ? 'n' : ''} ${questionWord}?`;
+            
+            yesNoQueue.push({ 
+                emoji: item.emoji, 
+                count: isPlural ? 3 : 1, 
+                question: question, 
+                answer: answer,
+                fullAnswer: answer ? (isPlural ? "Yes, they are." : "Yes, it is.") : (isPlural ? "No, they aren't." : "No, it isn't.")
+            });
+        }
+        currentYesNo = 0;
+        scores.yesno = 0;
+        loadYesNo();
+    }
+
+    function loadYesNo() {
+        if (currentYesNo >= yesNoQueue.length) {
+            document.getElementById('yesno-feedback').textContent = 'Все задания выполнены! 🎉';
+            document.getElementById('yesno-feedback').className = 'feedback-text feedback-correct';
+            document.getElementById('yesno-next-btn').style.display = 'none';
+            setTimeout(() => nextScreen(8), 1500);
+            return;
+        }
+
+        const item = yesNoQueue[currentYesNo];
+        document.getElementById('yesno-emoji-box').innerHTML = Array(item.count).fill(`<span class="emoji-3d">${item.emoji}</span>`).join('');
+        document.getElementById('yesno-question').textContent = item.question;
+        document.getElementById('yesno-feedback').textContent = '';
+        document.getElementById('yesno-next-btn').style.display = 'none';
+
+        const allBtns = document.querySelectorAll('#screen-7 .btn-option');
+        allBtns.forEach(btn => { btn.classList.remove('correct', 'wrong'); btn.disabled = false; });
+    }
+
+    function checkYesNo(userSaidYes) {
+        const item = yesNoQueue[currentYesNo];
+        const feedback = document.getElementById('yesno-feedback');
+        const allBtns = document.querySelectorAll('#screen-7 .btn-option');
+        allBtns.forEach(btn => btn.disabled = true);
+
+        if (userSaidYes === item.answer) {
+            const btnIndex = userSaidYes ? 0 : 1;
+            allBtns[btnIndex].classList.add('correct');
+            feedback.textContent = 'Правильно! 🌟';
+            feedback.className = 'feedback-text feedback-correct';
+            speak(`${item.question} ${item.fullAnswer}`);
+            scores.yesno++;
+        } else {
+            const btnIndex = userSaidYes ? 0 : 1;
+            const correctBtnIndex = item.answer ? 0 : 1;
+            allBtns[btnIndex].classList.add('wrong');
+            allBtns[correctBtnIndex].classList.add('correct');
+            feedback.textContent = item.fullAnswer;
+            feedback.className = 'feedback-text feedback-wrong';
+        }
+        document.getElementById('yesno-next-btn').style.display = 'block';
+    }
+
+    function nextYesNo() { currentYesNo++; loadYesNo(); }
+
+    // ===== ЗАДАНИЕ 5: Builder 1 (Grammar) =====
+    function initBuilder1() {
+        builder1Queue = [
+            { type: 'singular', item: itemsData[0] }, // apple
+            { type: 'plural', item: itemsData[1] },   // bananas
+            { type: 'singular', item: itemsData[4] }, // cherry
+            { type: 'plural', item: itemsData[6] }    // pencils
+        ].sort(() => Math.random() - 0.5);
+        
+        currentBuilder1 = 0;
+        scores.builder1 = 0;
+        loadBuilder1();
+    }
+
+    function loadBuilder1() {
+        if (currentBuilder1 >= builder1Queue.length) {
+            document.getElementById('builder-q1-feedback').textContent = 'Все фразы собраны! 🎉';
+            document.getElementById('builder-q1-feedback').className = 'feedback-text feedback-correct';
+            document.getElementById('builder-q1-next-btn').style.display = 'none';
+            setTimeout(() => nextScreen(9), 1500);
+            return;
+        }
+
+        const data = builder1Queue[currentBuilder1];
+        const isPlural = data.type === 'plural';
+        
+        document.getElementById('builder-q1-question').textContent = isPlural ? "What are they?" : "What is it?";
+        document.getElementById('builder-q1-emoji').textContent = isPlural ? `${data.item.emoji}${data.item.emoji}${data.item.emoji}` : data.item.emoji;
+        document.getElementById('builder-q1-feedback').textContent = '';
+        document.getElementById('builder-q1-next-btn').style.display = 'none';
+
+        const startWord = isPlural ? "They" : "It";
+        const verb = isPlural ? "are" : "is";
+        const article = (!isPlural && data.item.startsVowel) ? "an" : ((!isPlural && !data.item.startsVowel) ? "a" : "");
+        const noun = isPlural ? data.item.plural : data.item.word;
+
+        let tiles = [
+            { word: startWord, id: 1 },
+            { word: verb, id: 2 },
+            { word: noun, id: 3 }
+        ];
+        if (article) tiles.push({ word: article, id: 4 });
+
+        tiles.push({ word: isPlural ? "It" : "They", id: 5 });
+        tiles.push({ word: isPlural ? "is" : "are", id: 6 });
+        
+        builder1State.words = tiles.sort(() => Math.random() - 0.5);
+        builder1State.built = [];
+        renderBuilder1();
+    }
+
+    function renderBuilder1() {
+        const builtContainer = document.getElementById('builder-q1-built');
+        const wordsContainer = document.getElementById('builder-q1-words');
+        builtContainer.innerHTML = ''; wordsContainer.innerHTML = '';
+
+        builder1State.built.forEach((item, idx) => {
+            const slot = document.createElement('div');
+            slot.className = 'word-slot';
+            slot.textContent = item.word;
+            slot.onclick = () => {
+                item.used = false;
+                builder1State.built.splice(idx, 1);
+                renderBuilder1();
+                document.getElementById('builder-q1-feedback').textContent = '';
+            };
+            builtContainer.appendChild(slot);
+        });
+
+        builder1State.words.forEach(item => {
+            const tile = document.createElement('button');
+            tile.className = 'word-tile' + (item.used ? ' used' : '');
+            tile.textContent = item.word;
+            tile.onclick = () => {
+                if (item.used) return;
+                item.used = true;
+                builder1State.built.push(item);
+                renderBuilder1();
+                checkBuilder1();
+            };
+            wordsContainer.appendChild(tile);
+        });
+    }
+
+    function checkBuilder1() {
+        const data = builder1Queue[currentBuilder1];
+        const isPlural = data.type === 'plural';
+        const article = (!isPlural && data.item.startsVowel) ? "an" : ((!isPlural && !data.item.startsVowel) ? "a" : "");
+        const targetArr = [isPlural ? "They" : "It", isPlural ? "are" : "is", article, isPlural ? data.item.plural : data.item.word].filter(w => w !== "");
+        const target = targetArr.join(' ');
+        
+        const built = builder1State.built.map(i => i.word).join(' ');
+
+        if (builder1State.built.length === targetArr.length) {
+            if (built === target) {
+                document.getElementById('builder-q1-feedback').textContent = 'Отлично! 🌟';
+                document.getElementById('builder-q1-feedback').className = 'feedback-text feedback-correct';
+                speak(target);
+                scores.builder1++;
+                document.getElementById('builder-q1-next-btn').style.display = 'block';
+            } else {
+                document.getElementById('builder-q1-feedback').textContent = 'Не совсем, попробуй ещё раз! 💪';
+                document.getElementById('builder-q1-feedback').className = 'feedback-text feedback-wrong';
+                setTimeout(() => resetBuilderQ1(), 1200);
+            }
+        }
+    }
+
+    function resetBuilderQ1() {
+        builder1State.words.forEach(w => w.used = false);
+        builder1State.built = [];
+        document.getElementById('builder-q1-feedback').textContent = '';
+        renderBuilder1();
+    }
+
+    function nextBuilderQ1() { currentBuilder1++; loadBuilder1(); }
+
+    // ===== ЗАДАНИЕ 6: Builder 2 (Numbers) =====
+    function initBuilder2() {
+        builder2Queue = [
+            { num: numbersData[4], item: itemsData[0] }, // 15 apples
+            { num: numbersData[1], item: itemsData[1] }, // 12 bananas
+            { num: numbersData[6], item: itemsData[5] }, // 17 pens
+            { num: numbersData[9], item: itemsData[9] }  // 20 books
+        ].sort(() => Math.random() - 0.5);
+        
+        currentBuilder2 = 0;
+        scores.builder2 = 0;
+        loadBuilder2();
+    }
+
+    function loadBuilder2() {
+        if (currentBuilder2 >= builder2Queue.length) {
+            document.getElementById('builder-q2-feedback').textContent = 'Все фразы собраны! 🎉';
+            document.getElementById('builder-q2-feedback').className = 'feedback-text feedback-correct';
+            document.getElementById('builder-q2-next-btn').style.display = 'none';
+            setTimeout(() => nextScreen(10), 1500);
+            return;
+        }
+
+        const data = builder2Queue[currentBuilder2];
+        
+        document.getElementById('builder-q2-num').textContent = data.num.num;
+        document.getElementById('builder-q2-emoji').textContent = `${data.item.emoji}${data.item.emoji}`;
+        document.getElementById('builder-q2-feedback').textContent = '';
+        document.getElementById('builder-q2-next-btn').style.display = 'none';
+
+        // Слова для сборки: число + существительное во мн.числе
+        let tiles = [
+            { word: data.num.word, id: 1 },
+            { word: data.item.plural, id: 2 }
+        ];
+
+        // Отвлекающие
+        const otherNums = numbersData.filter(n => n.word !== data.num.word).map(n => n.word);
+        otherNums.sort(() => Math.random() - 0.5);
+        tiles.push({ word: otherNums[0], id: 3 });
+
+        const otherItems = itemsData.filter(i => i.word !== data.item.word).map(i => i.plural);
+        otherItems.sort(() => Math.random() - 0.5);
+        tiles.push({ word: otherItems[0], id: 4 });
+        
+        builder2State.words = tiles.sort(() => Math.random() - 0.5);
+        builder2State.built = [];
+        renderBuilder2();
+    }
+
+    function renderBuilder2() {
+        const builtContainer = document.getElementById('builder-q2-built');
+        const wordsContainer = document.getElementById('builder-q2-words');
+        builtContainer.innerHTML = ''; wordsContainer.innerHTML = '';
+
+        builder2State.built.forEach((item, idx) => {
+            const slot = document.createElement('div');
+            slot.className = 'word-slot';
+            slot.textContent = item.word;
+            slot.onclick = () => {
+                item.used = false;
+                builder2State.built.splice(idx, 1);
+                renderBuilder2();
+                document.getElementById('builder-q2-feedback').textContent = '';
+            };
+            builtContainer.appendChild(slot);
+        });
+
+        builder2State.words.forEach(item => {
+            const tile = document.createElement('button');
+            tile.className = 'word-tile' + (item.used ? ' used' : '');
+            tile.textContent = item.word;
+            tile.onclick = () => {
+                if (item.used) return;
+                item.used = true;
+                builder2State.built.push(item);
+                renderBuilder2();
+                checkBuilder2();
+            };
+            wordsContainer.appendChild(tile);
+        });
+    }
+
+    function checkBuilder2() {
+        const data = builder2Queue[currentBuilder2];
+        const target = `${data.num.word} ${data.item.plural}`;
+        const built = builder2State.built.map(i => i.word).join(' ');
+
+        if (builder2State.built.length === 2) {
+            if (built === target) {
+                document.getElementById('builder-q2-feedback').textContent = 'Отлично! 🌟';
+                document.getElementById('builder-q2-feedback').className = 'feedback-text feedback-correct';
+                speak(target);
+                scores.builder2++;
+                document.getElementById('builder-q2-next-btn').style.display = 'block';
+            } else {
+                document.getElementById('builder-q2-feedback').textContent = 'Не совсем, попробуй ещё раз! 💪';
+                document.getElementById('builder-q2-feedback').className = 'feedback-text feedback-wrong';
+                setTimeout(() => resetBuilderQ2(), 1200);
+            }
+        }
+    }
+
+    function resetBuilderQ2() {
+        builder2State.words.forEach(w => w.used = false);
+        builder2State.built = [];
+        document.getElementById('builder-q2-feedback').textContent = '';
+        renderBuilder2();
+    }
+
+    function nextBuilderQ2() { currentBuilder2++; loadBuilder2(); }
+
+    // ===== РЕЗУЛЬТАТЫ =====
+    function showResults() {
+        const totalCorrect = scores.num + scores.scramble + scores.article + scores.yesno + scores.builder1 + scores.builder2;
+        const totalMax = maxScores.num + maxScores.scramble + maxScores.article + maxScores.yesno + maxScores.builder1 + maxScores.builder2;
+        const percent = Math.round((totalCorrect / totalMax) * 100);
+        
+        document.getElementById('final-score').textContent = percent + '%';
+        document.getElementById('res-num').textContent = `${scores.num} / ${maxScores.num}`;
+        document.getElementById('res-scramble').textContent = `${scores.scramble} / ${maxScores.scramble}`;
+        document.getElementById('res-article').textContent = `${scores.article} / ${maxScores.article}`;
+        document.getElementById('res-yesno').textContent = `${scores.yesno} / ${maxScores.yesno}`;
+        document.getElementById('res-builder1').textContent = `${scores.builder1} / ${maxScores.builder1}`;
+        document.getElementById('res-builder2').textContent = `${scores.builder2} / ${maxScores.builder2}`;
+        document.getElementById('res-total').innerHTML = `<strong>${totalCorrect} / ${totalMax}</strong>`;
+        
+        const msgEl = document.getElementById('motivation-msg');
+        if (percent >= 90) {
+            msgEl.textContent = 'Wow! Ты супер-звезда! 🌟🌟';
+            startConfetti();
+        } else if (percent >= 70) {
+            msgEl.textContent = 'Отличная работа! Так держать! 👍👍';
+        } else if (percent >= 50) {
+            msgEl.textContent = 'Хорошо! Но можно лучше! 💪';
+        } else {
+            msgEl.textContent = 'Не сдавайся! Попробуй ещё раз! 🌱';
+        }
+    }
+
+    function resetLesson() {
+        currentScreen = 1;
+        scores = { num: 0, scramble: 0, article: 0, yesno: 0, builder1: 0, builder2: 0 };
+        
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-1').classList.add('active');
+        updateProgress(1);
+        
+        window.scrollTo(0, 0);
+        document.querySelectorAll('.confetti').forEach(c => c.remove());
+    }
+
+    function startConfetti() {
+        const colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f', '#F5A623'];
+        for (let i = 0; i < 60; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            confetti.style.opacity = Math.random();
+            confetti.style.top = '-10px';
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    // Инициализация
+    updateProgress(1);
+</script>
+
+</body>
+</html>
